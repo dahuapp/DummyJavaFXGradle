@@ -19,6 +19,6 @@ Run the project:
 
 To bundle the app for distribution do:
 
-   > gradle build
+    > gradle build
 
 This will create a .dmg on Max OSx, .exe on Windows and .deb on Ubuntu
