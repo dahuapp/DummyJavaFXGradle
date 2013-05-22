@@ -7,11 +7,18 @@ package io.dahuapp;
 import com.sun.glass.ui.Pixels;
 import com.sun.glass.ui.Screen;
 import java.awt.AWTException;
+import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -22,8 +29,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 /**
@@ -31,6 +40,8 @@ import javax.swing.SwingUtilities;
  * @author barraq
  */
 public class Dummy extends Application {
+    
+    static int numscreen = 1;
     
     @Override
     public void start(Stage primaryStage) {
@@ -42,20 +53,32 @@ public class Dummy extends Application {
         iv.fitHeightProperty().bind(root.heightProperty());
         
         btn.setText("Take a screenshot");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        takeScreenshotWithAWT(iv);
-                    }
-                });
-            }
-        });
+        //btn.setOnAction(new EventHandler<ActionEvent>() {
+          //  @Override
+            //public void handle(ActionEvent event) {
+              //  SwingUtilities.invokeLater(new Runnable() {
+                //    @Override
+                  //  public void run() {
+                    //    takeScreenshotWithAWT(iv);
+                   // }
+               // });
+           // }
+       // });
         
+
         Scene scene = new Scene(root, 300, 250);
-        root.getChildren().add(btn);
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                try {
+                       takeScreenshotWithAWT();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Dummy.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            }
+       });
+
+        //root.getChildren().add(btn);
         root.getChildren().add(iv);
         
         primaryStage.setTitle("JavaFXGradle dummy screenshot");
@@ -63,8 +86,27 @@ public class Dummy extends Application {
         primaryStage.show();
     }
     
-    public static void takeScreenshotWithAWT(final ImageView iv) {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    public static void takeScreenshotWithAWT() throws IOException {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+	Dimension screenSize = toolkit.getScreenSize();
+	Rectangle screenRect = new Rectangle(screenSize);
+	Robot robot = null;
+	try {
+		robot = new Robot();
+	} catch (AWTException ex) {
+		System.out.println(ex);
+	}
+
+	// prise du screenshot
+	BufferedImage createScreenCapture = robot.createScreenCapture(screenRect);
+        final String NOM_FILE = "screenshot/";
+	final String NOM_IMAGE = "image"; 			// A CHANGER
+	final String EXT = "png";
+
+	// ecriture de l'image sur le disque
+	ImageIO.write(createScreenCapture, EXT, new File(NOM_FILE+NOM_IMAGE + numscreen + "." + EXT));
+        numscreen ++;
+        /*GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] gs = ge.getScreenDevices();
 
         java.awt.Robot robot = null;
@@ -83,7 +125,7 @@ public class Dummy extends Application {
                 Image im = SwingFXUtils.toFXImage(bi, null);
                 iv.setImage(im);
             }
-        });
+        });*/
     }
     
     public static void takeScreenshotWithGlass(final ImageView iv) {
