@@ -10,6 +10,8 @@ import java.awt.AWTException;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -70,11 +72,14 @@ public class Dummy extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
+                Point pmouse = MouseInfo.getPointerInfo().getLocation();
                 try {
-                    Screenshot.takeScreenshotWithAWT();
+                    takeScreenshotWithAWT(iv);
                 } catch (IOException ex) {
                     Logger.getLogger(Dummy.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                System.out.println(pmouse.getX() + " et " + pmouse.getY());
+                
             }
        });
 
