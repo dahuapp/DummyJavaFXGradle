@@ -22,11 +22,14 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -68,7 +71,7 @@ public class Dummy extends Application {
             @Override
             public void handle(KeyEvent event) {
                 try {
-                    takeScreenshotWithAWT(iv);
+                    Screenshot.takeScreenshotWithAWT();
                 } catch (IOException ex) {
                     Logger.getLogger(Dummy.class.getName()).log(Level.SEVERE, null, ex);
                 }
