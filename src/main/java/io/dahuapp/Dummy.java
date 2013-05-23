@@ -42,17 +42,17 @@ import javax.swing.SwingUtilities;
 public class Dummy extends Application {
     
     static int numscreen = 1;
+   DirectorySelection dir ;
+   static String NOM_FILE ;
     
     @Override
     public void start(Stage primaryStage) {
         final StackPane root = new StackPane();
-        
+        dir = new DirectorySelection(primaryStage) ;
         final Button btn = new Button();
         final ImageView iv = new ImageView();
         iv.fitWidthProperty().bind(root.widthProperty());
         iv.fitHeightProperty().bind(root.heightProperty());
-        
-        btn.setText("Take a screenshot");
         //btn.setOnAction(new EventHandler<ActionEvent>() {
           //  @Override
             //public void handle(ActionEvent event) {
@@ -64,7 +64,14 @@ public class Dummy extends Application {
                // });
            // }
        // });
-        
+        btn.setText("Select a directory'");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dir.start() ;
+                NOM_FILE = dir.getFile().toString() ;
+            }
+        });
 
         Scene scene = new Scene(root, 300, 250);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -78,7 +85,7 @@ public class Dummy extends Application {
             }
        });
 
-        //root.getChildren().add(btn);
+        root.getChildren().add(btn);
         root.getChildren().add(iv);
         
         primaryStage.setTitle("JavaFXGradle dummy screenshot");
@@ -99,9 +106,8 @@ public class Dummy extends Application {
 
 	// prise du screenshot
 	BufferedImage createScreenCapture = robot.createScreenCapture(screenRect);
-        final String NOM_FILE = "screenshot/";
-	final String NOM_IMAGE = "image"; 			// A CHANGER
-	final String EXT = "png";
+	String NOM_IMAGE = "image"; 
+	String EXT = "png";
 
 	// ecriture de l'image sur le disque
 	ImageIO.write(createScreenCapture, EXT, new File(NOM_FILE+NOM_IMAGE + numscreen + "." + EXT));
