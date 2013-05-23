@@ -32,6 +32,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -58,7 +59,7 @@ public class Dummy extends Application {
             @Override
             public void handle(ActionEvent event) {
                 dir.start() ;
-                NOM_FILE = dir.getFile().toString() ;
+                NOM_FILE = dir.getDir();
             }
         });
 

@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -20,8 +21,7 @@ import javafx.stage.Stage;
 public class DirectorySelection {
     
     private File file;
-    private final Label labelFile = new Label();
-    private FileChooser fileChooser = new FileChooser();
+    private DirectoryChooser directoryChooser = new DirectoryChooser();
     private Stage parent ;
     
     public DirectorySelection(Stage primaryStage) {
@@ -35,28 +35,14 @@ public class DirectorySelection {
                 //Open directory from existing directory
                 if(file != null){
                     File existDirectory = file.getParentFile();
-                    fileChooser.setInitialDirectory(existDirectory);
+                    directoryChooser.setInitialDirectory(existDirectory);
                 }
- 
-                //Set extension filter
-                //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
-                //fileChooser.getExtensionFilters().add(extFilter);
                  
                 //Show open file dialog
-                file = fileChooser.showOpenDialog(null);
-                labelFile.setText(file.getPath());
-            
-     
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(labelFile);
-         
-        StackPane root = new StackPane();
-        root.getChildren().add(vBox);
-        parent.setScene(new Scene(root, 300, 250));
-        parent.show();
+                file = directoryChooser.showDialog(null);      
     }
     
-    File getFile() {
-        return file.getParentFile() ;
+    String getDir() {
+        return file.getAbsolutePath() + "/";
     }
 }
