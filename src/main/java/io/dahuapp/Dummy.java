@@ -71,8 +71,8 @@ FileHandler fh;
         }
 
 // envoi de messages ...
-monLog.log(Level.WARNING," le message ");
-monLog.log(Level.SEVERE," le message ", new Exception());// les messages + la pile d'exécution
+monLog.log(Level.WARNING," warning message ");
+monLog.log(Level.SEVERE," error message ", new Exception());// les messages + la pile d'exécution
 ///////////////////////////////////////////////////////////////
 
         final StackPane root = new StackPane();
