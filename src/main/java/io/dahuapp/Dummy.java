@@ -15,6 +15,7 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -45,9 +46,30 @@ public class Dummy extends Application {
    static String NOM_FILE ;
     static final String NOM_IMAGE = "image"; 			// A CHANGER
     static final String EXT = "png";
+    Logger monLog;
     
     @Override
     public void start(final Stage primaryStage) {
+        
+/////////////////TEST DE LOGGER...///////////////////////
+        // création d'un Logger et d'un Handler
+monLog = Logger.getLogger(Dummy.class.getName());
+monLog.setLevel(Level.ALL); //pour envoyer les messages de tous les niveaux
+monLog.setUseParentHandlers(false); // pour supprimer la console par défaut
+FileHandler fh;
+        try {
+            fh = new FileHandler("C:/Users/Jean-Baptiste/Desktop/dummytest.log");
+            fh.setFormatter(new HTMLFormatter());
+            monLog.addHandler(fh);
+        } catch (IOException | SecurityException ex) {
+            Logger.getLogger(Dummy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+// envoi de messages ...
+monLog.log(Level.WARNING," le message ");
+monLog.log(Level.SEVERE," le message ", new Exception());// les messages + la pile d'exécution
+///////////////////////////////////////////////////////////////
+
         final StackPane root = new StackPane();
         dir = new DirectorySelection(primaryStage) ;
         final Button btn = new Button();
@@ -59,6 +81,7 @@ public class Dummy extends Application {
             @Override
             public void handle(ActionEvent event) {
                 dir.start() ;
+                monLog.log(Level.FINE, " repertoire selectionn\u00e9 : {0} ", dir.getDir());
                 NOM_FILE = dir.getDir();
             }
         });

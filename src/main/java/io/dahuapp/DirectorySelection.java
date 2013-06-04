@@ -7,6 +7,7 @@ package io.dahuapp;
 import java.io.File;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,6 +18,7 @@ public class DirectorySelection {
     private File file;
     private DirectoryChooser directoryChooser = new DirectoryChooser();
     private Stage parent ;
+    
     
     public DirectorySelection(Stage primaryStage) {
         
