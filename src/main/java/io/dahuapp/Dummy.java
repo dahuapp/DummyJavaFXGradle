@@ -10,6 +10,8 @@ import java.awt.AWTException;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -23,11 +25,14 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -90,11 +95,14 @@ monLog.log(Level.SEVERE," le message ", new Exception());// les messages + la pi
         scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
+                Point pmouse = MouseInfo.getPointerInfo().getLocation();
                 try {
                     takeScreenshotWithAWT(iv);
                 } catch (IOException ex) {
                     Logger.getLogger(Dummy.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                System.out.println(pmouse.getX() + " et " + pmouse.getY());
+                
             }
        });
 
